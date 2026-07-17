@@ -4,35 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#6c4cff">
-  <title>GlagolT — квиз по временам</title>
+  <title>GlagolT — 12 времён английского</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app-shell">
-    <section class="brand" aria-label="GlagolT">
+    <header class="brand">
       <div class="logo">G</div>
-      <div>
-        <p class="eyebrow">Английский без скуки</p>
-        <h1>GlagolT</h1>
-      </div>
-    </section>
+      <div><p class="eyebrow">Английский без скуки</p><h1>GlagolT</h1></div>
+    </header>
 
-    <section class="quiz-card" id="quiz-card">
-      <div id="start-screen" class="screen">
-        <span class="badge">10 вопросов</span>
-        <h2>Насколько хорошо ты знаешь времена?</h2>
-        <p>Выбирай правильную форму глагола. После каждого ответа ты увидишь короткое объяснение.</p>
-        <button class="primary-button" id="start-button">Начать квиз</button>
+    <section class="quiz-card">
+      <div id="home-screen" class="screen">
+        <span class="badge">432 задания · 12 времён</span>
+        <h2>Выбери уровень</h2>
+        <p>В каждом раунде 20 случайных однозначных заданий с объяснениями.</p>
+
+        <div class="level-grid">
+          <button class="level-button easy" data-level="easy">
+            <span class="level-icon">🌱</span><strong>Лёгкий</strong>
+            <small>4 базовых времени</small>
+          </button>
+          <button class="level-button medium" data-level="medium">
+            <span class="level-icon">✨</span><strong>Средний</strong>
+            <small>8 времён</small>
+          </button>
+          <button class="level-button hard" data-level="hard">
+            <span class="level-icon">🔥</span><strong>Сложный</strong>
+            <small>Все 12 времён</small>
+          </button>
+        </div>
+
+        <button class="mistakes-button" id="mistakes-button">
+          <span>Повторить ошибки</span><strong id="mistakes-count">0</strong>
+        </button>
+
+        <div class="stats">
+          <div><strong id="stat-answered">0</strong><span>ответов</span></div>
+          <div><strong id="stat-accuracy">0%</strong><span>точность</span></div>
+          <div><strong id="stat-best">0</strong><span>лучшая серия</span></div>
+        </div>
       </div>
 
       <div id="question-screen" class="screen hidden">
         <div class="quiz-top">
-          <span id="question-counter">Вопрос 1 из 10</span>
+          <button class="text-button" id="home-button">← В меню</button>
           <span id="score">Счёт: 0</span>
         </div>
-        <div class="progress" aria-hidden="true"><div id="progress-bar"></div></div>
-        <p class="tense-label" id="tense-label"></p>
+        <div class="progress"><div id="progress-bar"></div></div>
+        <div class="question-meta">
+          <span id="question-counter">Вопрос 1 из 20</span>
+          <span class="tense-label" id="tense-label"></span>
+        </div>
         <h2 id="question-text"></h2>
+        <p class="hint" id="question-hint"></p>
         <div class="answers" id="answers"></div>
         <div class="feedback hidden" id="feedback" role="status"></div>
         <button class="primary-button hidden" id="next-button">Следующий вопрос</button>
@@ -40,15 +65,15 @@
 
       <div id="result-screen" class="screen hidden">
         <div class="result-icon" id="result-icon">🏆</div>
-        <p class="eyebrow">Квиз завершён</p>
+        <p class="eyebrow">Раунд завершён</p>
         <h2 id="result-title"></h2>
         <p class="result-score" id="result-score"></p>
         <p id="result-message"></p>
-        <button class="primary-button" id="restart-button">Пройти ещё раз</button>
+        <button class="primary-button" id="again-button">Ещё один раунд</button>
+        <button class="secondary-button" id="result-home-button">В меню</button>
       </div>
     </section>
-
-    <p class="footer-note">Практикуйся понемногу — запоминай надолго.</p>
+    <p class="footer-note">Прогресс автоматически сохраняется на этом устройстве.</p>
   </main>
   <script src="app.js"></script>
 </body>
