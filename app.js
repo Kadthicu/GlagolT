@@ -34,14 +34,30 @@ const tenses=[
  {name:"Future Perfect Continuous",group:"hard",marker:"for two hours by 7 p.m. tomorrow",hint:"к моменту в будущем процесс будет длиться указанное время",form:(s,v)=>"will have been "+v.ing,explain:"Future Perfect Continuous: will have been + глагол с -ing."}
 ];
 
+const theory={
+ "Present Simple":{formula:"V / V-s",use:"Регулярные действия, привычки и факты.",markers:"every day, usually, often, always",example:"She works at the office every Monday."},
+ "Present Continuous":{formula:"am / is / are + V-ing",use:"Действие происходит прямо сейчас или временно.",markers:"now, right now, at the moment, Look!",example:"They are playing tennis right now."},
+ "Past Simple":{formula:"V-ed / вторая форма",use:"Завершённое действие в конкретный момент прошлого.",markers:"yesterday, last week, ago, in 2020",example:"I watched this series yesterday."},
+ "Future Simple":{formula:"will + V",use:"Решение, обещание или предположение о будущем.",markers:"tomorrow, next week, I think, probably",example:"She will call a friend tomorrow."},
+ "Past Continuous":{formula:"was / were + V-ing",use:"Процесс, который шёл в определённый момент прошлого.",markers:"at 7 p.m. yesterday, while, when",example:"They were cooking dinner at 7 p.m. yesterday."},
+ "Future Continuous":{formula:"will be + V-ing",use:"Процесс, который будет идти в определённый момент будущего.",markers:"at this time tomorrow, at 7 p.m. tomorrow",example:"I will be studying English at 7 p.m. tomorrow."},
+ "Present Perfect":{formula:"have / has + V3",use:"Есть результат к настоящему моменту; точное время неважно.",markers:"already, just, yet, ever, never",example:"She has already cleaned the room."},
+ "Past Perfect":{formula:"had + V3",use:"Действие завершилось раньше другого события в прошлом.",markers:"before, after, by the time",example:"They had opened the shop before the meeting started."},
+ "Present Perfect Continuous":{formula:"have / has been + V-ing",use:"Процесс начался раньше и всё ещё продолжается.",markers:"for, since, all day",example:"I have been studying English for two hours."},
+ "Past Perfect Continuous":{formula:"had been + V-ing",use:"Процесс длился некоторое время до момента в прошлом.",markers:"for, since, before",example:"She had been working for two hours before the meeting started."},
+ "Future Perfect":{formula:"will have + V3",use:"Действие завершится к определённому моменту будущего.",markers:"by, by the time, before",example:"They will have cooked dinner by 7 p.m. tomorrow."},
+ "Future Perfect Continuous":{formula:"will have been + V-ing",use:"К моменту в будущем процесс будет длиться указанное время.",markers:"for ... by, by the time",example:"I will have been working for two hours by 7 p.m. tomorrow."}
+};
+
 const STORAGE_KEY="glagolt-progress-v2";
 const defaultProgress={answered:0,correct:0,bestStreak:0,mistakes:[]};
 let saved=loadProgress();
+let theoryLevel="easy";
 let bank=makeBank();
 let round=[],at=0,hits=0,streak=0,lastMode="easy",mistakeMode=false,locked=false;
 
 const $=id=>document.getElementById(id);
-const screens={home:$("home-screen"),question:$("question-screen"),result:$("result-screen")};
+const screens={home:$("home-screen"),theory:$("theory-screen"),question:$("question-screen"),result:$("result-screen")};
 
 function loadProgress(){
  try{return {...defaultProgress,...JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")};}
@@ -72,6 +88,27 @@ function allowed(question,level){
 }
 
 function show(name){Object.entries(screens).forEach(([key,node])=>node.classList.toggle("hidden",key!==name));}
+
+function openTheory(level){
+ theoryLevel=level;
+ const labels={easy:"Лёгкий уровень",medium:"Средний уровень",hard:"Сложный уровень"};
+ $("theory-level").textContent=labels[level];
+ const available=tenses.filter(t=>allowed(t,level));
+ $("theory-list").innerHTML=available.map((t,index)=>{
+   const item=theory[t.name];
+   return `<details class="theory-card"${index===0?" open":""}>
+     <summary>${t.name}</summary>
+     <div class="theory-body">
+       <p><span class="formula">${item.formula}</span></p>
+       <p><strong>Когда:</strong> ${item.use}</p>
+       <p class="markers"><strong>Маркеры:</strong> ${item.markers}</p>
+       <p class="example"><strong>Пример:</strong> ${item.example}</p>
+     </div>
+   </details>`;
+ }).join("");
+ show("theory");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
 
 function start(level,errorsOnly=false){
  lastMode=level;mistakeMode=errorsOnly;at=0;hits=0;streak=0;
@@ -150,7 +187,9 @@ function updateHome(){
  $("mistakes-button").disabled=saved.mistakes.length===0;
 }
 
-document.querySelectorAll("[data-level]").forEach(button=>button.addEventListener("click",()=>start(button.dataset.level)));
+document.querySelectorAll("[data-level]").forEach(button=>button.addEventListener("click",()=>openTheory(button.dataset.level)));
+$("theory-home-button").addEventListener("click",()=>show("home"));
+$("start-theory-button").addEventListener("click",()=>start(theoryLevel));
 $("mistakes-button").addEventListener("click",()=>start("hard",true));
 $("next-button").addEventListener("click",next);
 $("home-button").addEventListener("click",()=>{updateHome();show("home");});
