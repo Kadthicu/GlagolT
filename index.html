@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c4cff">
+  <title>GlagolT — квиз по временам</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="brand" aria-label="GlagolT">
+      <div class="logo">G</div>
+      <div>
+        <p class="eyebrow">Английский без скуки</p>
+        <h1>GlagolT</h1>
+      </div>
+    </section>
+
+    <section class="quiz-card" id="quiz-card">
+      <div id="start-screen" class="screen">
+        <span class="badge">10 вопросов</span>
+        <h2>Насколько хорошо ты знаешь времена?</h2>
+        <p>Выбирай правильную форму глагола. После каждого ответа ты увидишь короткое объяснение.</p>
+        <button class="primary-button" id="start-button">Начать квиз</button>
+      </div>
+
+      <div id="question-screen" class="screen hidden">
+        <div class="quiz-top">
+          <span id="question-counter">Вопрос 1 из 10</span>
+          <span id="score">Счёт: 0</span>
+        </div>
+        <div class="progress" aria-hidden="true"><div id="progress-bar"></div></div>
+        <p class="tense-label" id="tense-label"></p>
+        <h2 id="question-text"></h2>
+        <div class="answers" id="answers"></div>
+        <div class="feedback hidden" id="feedback" role="status"></div>
+        <button class="primary-button hidden" id="next-button">Следующий вопрос</button>
+      </div>
+
+      <div id="result-screen" class="screen hidden">
+        <div class="result-icon" id="result-icon">🏆</div>
+        <p class="eyebrow">Квиз завершён</p>
+        <h2 id="result-title"></h2>
+        <p class="result-score" id="result-score"></p>
+        <p id="result-message"></p>
+        <button class="primary-button" id="restart-button">Пройти ещё раз</button>
+      </div>
+    </section>
+
+    <p class="footer-note">Практикуйся понемногу — запоминай надолго.</p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
